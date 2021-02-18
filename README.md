@@ -7,7 +7,7 @@ CkipTagger為中研院資訊所、語言所合作的中文計算語言研究小�
 https://github.com/ckiplab/ckiptagger
 
 #相關網站
-1.CKIP Lab中文詞知識庫小組-線上系統展示：https://ckip.iis.sinica.edu.tw/demo/
-2.CKipTagger 線上展示網站：https://ckip.iis.sinica.edu.tw/service/ckiptagger/
+  1.CKIP Lab中文詞知識庫小組-線上系統展示：https://ckip.iis.sinica.edu.tw/demo/
+  2.CKipTagger 線上展示網站：https://ckip.iis.sinica.edu.tw/service/ckiptagger/
 
 #文件說明
