@@ -8,17 +8,18 @@ from pymysql import *
 import numpy as np 
 import json
 
-conn = connect(host='120.126.19.100',
-                    database='newstest',
-                    user='remote',
-                    password='gylab666', charset='utf8')
+conn = connect(host=[your_host],
+                    database=[your_db],
+                    user=[db_username],
+                    password=[db_password], charset='utf8')
 cs1 = conn.cursor()
 
 def main():
-    sql1 = "SELECT id,title FROM bingnews2 WHERE title LIKE '%驚呆%'UNION SELECT id,title FROM bingnews2 WHERE title LIKE'%爆氣%' UNION SELECT id,title FROM bingnews2 WHERE title LIKE'%網友這麼說%' UNION SELECT id,title FROM bingnews2 WHERE title LIKE'%網友這樣說%'UNION SELECT id,title FROM bingnews2 WHERE title LIKE'%網驚%'"
+    sql1 = "SELECT id,title FROM bingnews2 WHERE title LIKE '%驚呆%'UNION SELECT id,title FROM bingnews2 WHERE title LIKE'%爆氣%' UNION SELECT id,title FROM bingnews2 WHERE title LIKE'%網友這麼說%' UNION SELECT id,title FROM bingnews2 WHERE title LIKE'%網友這樣說%'UNION SELECT id,title FROM bingnews2 WHERE title LIKE'%網驚%'"  
+    #將資料表中部份資料抓出來，若需將資料庫中資料全部抓出來：SELECT [欄位] FROM [資料表]
     cs1.execute(sql1)
-    idc=[]
-    title = []
+    idc=[] #id
+    title = [] #標題
     user={}
     str4=""
     alldata = cs1.fetchall()
@@ -27,34 +28,32 @@ def main():
         title.append(s[1])
     #print(len(idc))
     # Load model without GPU
-    ws = WS("C:/Users/cks/Downloads/ckiptagger-master/data/data")
-    pos = POS("C:/Users/cks/Downloads/ckiptagger-master/data/data")
-    ner = NER("C:/Users/cks/Downloads/ckiptagger-master/data/data")
+    ws = WS("請上CKipTagger 的github下載模型，網址詳見READ") #斷詞
+    pos = POS("請上CKipTagger 的github下載模型，網址詳見READ") #詞性標註
+    ner = NER("請上CKipTagger 的github下載模型，網址詳見READ") #實體辨識
 
     # Create custom dictionary
     # 用讀CSV的方式讀取前面匯出的txt
-    df_ner_dict = pd.read_csv(r"C:\Users\cks\Desktop\畢業專題\Python\kmeans資料分群\stop_words.txt",delimiter="\t", quoting=csv.QUOTE_NONE, header=None,encoding="utf-8")
+    df_ner_dict = pd.read_csv(r"停用詞文件儲存位置",delimiter="\t", quoting=csv.QUOTE_NONE, header=None,encoding="utf-8") #使用停用詞
     # 存到list
     df_ner_dict.columns = ['NER']
     list_ner_dict = list(df_ner_dict['NER'])
     dict_for_CKIP = dict((el,1) for el in list_ner_dict)
     dict_for_CKIP = construct_dictionary(dict_for_CKIP) 
     for i in range(len(title)):
-        sentence_list = '朴敏英進廠「修鼻子」？最新近照曝光 網驚：有點怪怪的'#title[i]
+        sentence_list = '朴敏英進廠「修鼻子」？最新近照曝光 網驚：有點怪怪的'#若修改成sentence_list = title[i]，則可以讀取資料表中所有字串
         idh=idc[i]
-        word_s = np.ravel(ws(sentence_list,coerce_dictionary=dict_for_CKIP))
-        word_p = np.ravel(pos(word_s))
+        word_s = np.ravel(ws(sentence_list,coerce_dictionary=dict_for_CKIP)) #斷詞
+        word_p = np.ravel(pos(word_s)) #詞性標註
         pos_sentence_list = pos(word_s)
         print(word_s)
         print(word_p)
-        #cs1.execute("INSERT INTO ckiptaggernews(id) VALUES ('%s')" %(idh))
-        #conn.commit()
-    for key, value in zip(word_s, word_p):
+
+    for key, value in zip(word_s, word_p): #將斷詞結果和對應詞性以鍵值方式存為JSON檔
         user[key]=value
         jsoninfo = json.dumps(user, ensure_ascii=False)
-        print(jsoninfo)
-    #cs1.execute("INSERT IGNORE INTO ckiptaggernews(id,ckiptitle) VALUES ('%s','%s')" %(idh,jsoninfo))
-    #conn.commit()
+
+
     print("complete")
     # Release model
     del ws
