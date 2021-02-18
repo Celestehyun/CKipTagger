@@ -16,3 +16,5 @@ https://github.com/ckiplab/ckiptagger
   2.CKipTagger 線上展示網站：https://ckip.iis.sinica.edu.tw/service/ckiptagger/
 
 #文件說明
+
+ckiptaggernews.py ==> 將資料庫中的字串作斷詞及詞性標註的處理，並將斷詞結果和對應詞性轉為JSON儲存
