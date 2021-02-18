@@ -12,6 +12,6 @@ https://github.com/ckiplab/ckiptagger
 
   1.CKIP Lab中文詞知識庫小組-線上系統展示：https://ckip.iis.sinica.edu.tw/demo/
   
-  .CKipTagger 線上展示網站：https://ckip.iis.sinica.edu.tw/service/ckiptagger/
+  2.CKipTagger 線上展示網站：https://ckip.iis.sinica.edu.tw/service/ckiptagger/
 
 #文件說明
